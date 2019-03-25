@@ -1,3 +1,28 @@
+html {
+	background-color: #263238;
+}
+.centered > tr > td {
+	text-align: center;
+}
+.collapsible-body {
+	background-color: #424242;
+}
+.progress .indeterminate {
+    background-color: #00BCD4;
+}
+.progress .determinate {
+    background-color: #00BCD4;
+}
+a {
+	color: #4FC3F7;
+	font-weight: 700;
+}
+.card {
+	background: #37474f;
+}
+.card-content {
+	color: #bdbdbd !important;
+}
 .tabs {
   position: relative;
   height: 48px;

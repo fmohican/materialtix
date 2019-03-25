@@ -3,7 +3,7 @@
 <head>
 	<title>Tixati Web Interface</title>
 	<!--Import materialize.css-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="/custom.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -37,28 +37,27 @@
 
 
 <body onload="udctrls()">
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper blue-grey darken-2">
-				<a href="/home" class="brand-logo">Tixati</a>
-				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-				<ul class="right hide-on-med-and-down">
-					<li><a href="/home">Home</a></li>
-					<li><a href="/transfers">Transfers</a></li>
-					<li><a href="/log">Log</a></li>
-					<li><a href="/settings">Settings</a></li>
-					<li><a href="/help">Help</a></li>
-				</ul>
-				<ul class="side-nav" id="mobile-demo">
-					<li><a href="home">Home</a></li>
-					<li><a href="/transfers">Transfers</a></li>
-					<li><a href="/log">Log</a></li>
-					<li><a href="/settings">Settings</a></li>
-					<li><a href="/help">Help</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+
+	<nav>
+		<div class="nav-wrapper blue-grey darken-2">
+			<a href="/home" class="brand-logo">Tixati</a>
+			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="/home">Home</a></li>
+				<li><a href="/transfers">Transfers</a></li>
+				<li><a href="/log">Log</a></li>
+				<li><a href="/settings">Settings</a></li>
+				<li><a href="/help">Help</a></li>
+			</ul>
+			<ul class="side-nav" id="mobile-demo">
+				<li><a href="home">Home</a></li>
+				<li><a href="/transfers">Transfers</a></li>
+				<li><a href="/log">Log</a></li>
+				<li><a href="/settings">Settings</a></li>
+				<li><a href="/help">Help</a></li>
+			</ul>
+		</div>
+	</nav>
 	<br/>
 	<form form method="post" action="/transfers/action" enctype="multipart/form-data">
 		<div class="center">
@@ -85,8 +84,8 @@
 											<option value="" disabled selected>Match Conditions</option>
 											<!--select xferfilter_mode-->
 										</select>
-										<button class="waves-effect waves-light btn blue-grey darken-1" type="submit" name="xferfilter_clear">Clear</button>
-										<button class="waves-effect waves-light btn blue-grey darken-1" type="submit" name="xferfilter_apply">Apply</button>
+										<button class="waves-effect waves-light btn" type="submit" name="xferfilter_clear">Clear</button>
+										<button class="waves-effect waves-light btn" type="submit" name="xferfilter_apply">Apply</button>
 									</div>
 								</div>
 							</div>
@@ -100,7 +99,7 @@
 					<!--list_start transfers-->
 					<div class="col s12 m6">
 						<div class="card hoverable">
-							<div class="card-content white-text blue-grey-text text-lighten-2">
+							<div class="card-content white-text blue-grey-text">
 								<span class="card-title truncate"><input class="checkbox" id="$guid$" type="checkbox" name="$guid$" value="1" onclick="udctrls()"/><label for="$guid$"><a href="/transfers/$guid$/details">$name$</a></label></span>
 								<script type="text/javascript">
 									setInterval(function(){
@@ -111,11 +110,17 @@
 												var percent = (html.find("div#$guid$progress").html());
 												var tstatus = (html.find("div#$guid$status").html());
 												var rtime = (html.find("div#$guid$time").html());
+												var ul_ratio = (html.find("div#$guid$ul_ratio").html());
+												var out_bytes_file = (html.find("div#$guid$out_bytes_file").html());
+												var in_bytes_total = (html.find("div#$guid$in_bytes_total").html());
 												$('#$guid$prog').css('width' , percent+'%');
 												$('#$guid$prog').removeClass('indeterminate').addClass('determinate')
 												$('#$guid$progtext').text(percent+'%');
 												$('#$guid$status').text(tstatus);
 												$('#$guid$progtime').text(rtime);
+												$('#$guid$ul_ratio').text(ul_ratio);
+												$('#$guid$out_bytes_file').text(out_bytes_file);
+												$('#$guid$in_bytes_total').text(in_bytes_total);
 											},
 										});
 									}, 2500);
@@ -123,9 +128,29 @@
 								<div class="progress">
 									<div id="$guid$prog" class="indeterminate"></div>
 								</div>
-								<p>Progress: <span id="$guid$progtext" class="right"></span></p>
-								<p>Remaining Time: <span id="$guid$progtime" class="right"></span></p>
-								<p>Status: <span id="$guid$status" class="right"></span></p>
+                <table class="centered">
+                  <thead class="centered">
+                    <tr>
+                      <td>Download</td>
+                      <td>Upload</td>
+                      <td>Ratio</td>
+                      <td>Progress</td>
+                      <td>R.Time</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span id="$guid$in_bytes_total"></span></td>
+                      <td><span id="$guid$out_bytes_file"></span></td>
+                      <td><span id="$guid$ul_ratio"></span></td>
+                      <td><span id="$guid$progtext"></span></td>
+                      <td><span id="$guid$progtime"></span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p style="text-align:center;">
+                  <span id="$guid$status" ></span>
+                </p>
 							</div>
 						</div>
 					</div>
@@ -173,7 +198,7 @@
 									<option value="5">5%</option>
 									<option value="2">2%</option>
 								</select>
-								<button type="submit" name="update_prio" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_prio" class="waves-effect waves-light btn">Apply</button>
 								<br/><br/>
 							</div>
 						</div>
@@ -232,7 +257,7 @@
 									<option value="2">2%</option>
 								</select>
 								<br />
-								<button type="submit" name="update_inprio" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_inprio" class="waves-effect waves-light btn">Apply</button>
 								<br/><br/>
 							</div>
 						</div>
@@ -291,7 +316,7 @@
 									<option value="2">2%</option>
 								</select>
 								<br />
-								<button type="submit" name="update_outprio" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_outprio" class="waves-effect waves-light btn">Apply</button>
 								<br/><br/>
 							</div>
 						</div>
@@ -352,7 +377,7 @@
 									<option value="40">40</option>
 									<option value="50">50</option>
 								</select>
-								<button type="submit" name="update_ullimits" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_ullimits" class="waves-effect waves-light btn">Apply</button>
 								<br/><br/>
 							</div>
 						</div>
@@ -367,7 +392,7 @@
 									<option value="1">On</option>
 								</select>
 								<br />
-								<button type="submit" name="update_constseeding" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_constseeding" class="waves-effect waves-light btn">Apply</button>
 								<br />
 								<label for="superseeding">Super Seeding</label>
 								<select name="superseeding" class="form-control">
@@ -375,7 +400,7 @@
 									<option value="1">On</option>
 								</select>
 								<br />
-								<button type="submit" name="update_superseeding" class="waves-effect waves-light btn blue-grey darken-1">Apply</button>
+								<button type="submit" name="update_superseeding" class="waves-effect waves-light btn">Apply</button>
 								<br/><br/>
 							</div>
 						</div>
@@ -388,7 +413,7 @@
 </div>
 
 <!--Import jQuery before materialize.js-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 <script type="text/javascript" src="/init.js"></script>
 </body>
 </html>
